@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: subber-proxy
+    runtime: node
+    buildCommand: bun install
+    startCommand: bun run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: TARGET_URL
+        fromGroup: proxy-config
+    autoDeploy: true
+    healthCheckPath: /health
+
+envVarGroups:
+  - name: proxy-config
+    envVars:
+      - key: TARGET_URL
+        value: http://your-target-api.com
+        # Replace with your actual target URL in the Render dashboard
