@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const dotenv = require('dotenv');
+const https = require('https');
 
 // Load environment variables
 dotenv.config();
@@ -50,6 +51,15 @@ app.use('/api', createProxyMiddleware(proxyOptions));
 // Simple route for testing
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'Proxy server is running' });
+});
+
+// Route see server's outbound request IP
+app.get('/my-ip', (req, res) => {
+  https.get('https://api.ipify.org?format=json', (resp) => {
+    let data = '';
+    resp.on('data', chunk => data += chunk);
+    resp.on('end', () => res.send(data));
+  });
 });
 
 // Fallback route - use a specific path pattern instead of '*' to avoid compatibility issues
