@@ -38,7 +38,7 @@ const proxyOptions = {
   target: TARGET_URL,
   changeOrigin: true,
   pathRewrite: {
-    "^/api": "", // Remove /api prefix when forwarding
+    "^/proxy-server1": "", // Remove /proxy-server1 prefix when forwarding
   },
   onProxyRes: (proxyRes, req, res) => {
     // Add custom headers to the response if needed
